@@ -18,7 +18,6 @@ export default function TodoListItem({ onEdit, title, key }) {
       className="flex justify-between w-[calc(100%_-_40px)] group"
       //   onMouseEnter={handleHover}
       //   onMouseLeave={handleHover}
-      key={key}
     >
       <div className="flex gap-2">
         <input

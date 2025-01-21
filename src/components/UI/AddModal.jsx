@@ -27,7 +27,7 @@ export default function AddModal({ open, onClose }) {
     const item = {
       id: newUuid,
       isChecked: false,
-      text: addValue,
+      title: addValue,
     };
     localStorage.setItem(newUuid, JSON.stringify(item));
     onClose();

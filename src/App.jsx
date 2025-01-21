@@ -12,13 +12,19 @@ function App() {
     isOpen: false,
     value: "",
   });
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(
+    Object.keys(localStorage).reduce((acc, key) => {
+      acc = [key, ...acc];
+      return acc;
+    }, [])
+  );
+  console.log(items);
+
   useEffect(() => {
     Object.keys(localStorage).forEach((key) =>
       setItems((prev) => [...prev, JSON.parse(localStorage.getItem(key))])
     );
-  }, [localStorage]);
-
+  }, []);
   function handleAddModalOpen() {
     setIsAddModalOpen(true);
   }

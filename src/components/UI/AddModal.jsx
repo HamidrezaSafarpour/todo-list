@@ -3,7 +3,7 @@ import Input from "./Input";
 import { createPortal } from "react-dom";
 import { v4 as uuid } from "uuid";
 
-export default function AddModal({ open, onClose }) {
+export default function AddModal({ open, onClose, onUpdate }) {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
 
@@ -23,20 +23,25 @@ export default function AddModal({ open, onClose }) {
   }
 
   function handleAddNote() {
-    const newUuid = uuid();
+    let id = Number(localStorage.getItem("count"));
+    console.log(id);
+    id = id + 1;
+    localStorage.setItem("count", id);
+
     const item = {
-      id: newUuid,
+      id: id,
       isChecked: false,
       title: addValue,
     };
-    localStorage.setItem(newUuid, JSON.stringify(item));
+    localStorage.setItem(id, JSON.stringify(item));
     onClose();
+    onUpdate();
   }
-  useEffect(() => {
-    Object.keys(localStorage).forEach((key) =>
-      console.log(JSON.parse(localStorage.getItem(key)))
-    );
-  }, []);
+  // useEffect(() => {
+  //   Object.keys(localStorage).forEach((key) =>
+  //     console.log(JSON.parse(localStorage.getItem(key)))
+  //   );
+  // }, []);
 
   return createPortal(
     <dialog

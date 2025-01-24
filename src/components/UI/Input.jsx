@@ -1,6 +1,14 @@
-export default function Input({ classes, placeholder, type, value, onChange }) {
+export default function Input({
+  classes,
+  placeholder,
+  type,
+  value,
+  onChange,
+  ...props
+}) {
   return (
     <input
+      {...props}
       type={type}
       placeholder={placeholder}
       defaultValue={value}

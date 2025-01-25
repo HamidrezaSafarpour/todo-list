@@ -11,12 +11,8 @@ export default function SearchBar({
 }) {
   return (
     <div className="flex gap-3 mb-6">
-      <Search onSearch={onSearch} dark={dark} />
-      <FilterDropDown
-        onFilter={onFilter}
-        onTextChange={onTextChange}
-        dark={dark}
-      />
+      <Search onSearch={onSearch} />
+      <FilterDropDown onFilter={onFilter} onTextChange={onTextChange} />
       <Theme onChangeTheme={onChangeTheme} dark={dark} />
     </div>
   );

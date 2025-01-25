@@ -9,21 +9,7 @@ export default function TodoListItem({
   onDelete,
   isChecked,
   onChecked,
-  dark,
 }) {
-  // const [isChecked, setIsChecked] = useState(false);
-
-  // function handleChecked() {
-  //   setIsChecked(!isChecked);
-  // }
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [dark]);
-
   return (
     <div className="flex justify-between w-[calc(100%_-_40px)] group m-1">
       <div className="flex gap-2">

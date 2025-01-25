@@ -4,7 +4,6 @@ export default function Input({
   type,
   value,
   onChange,
-  dark,
   ...props
 }) {
   return (

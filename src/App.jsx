@@ -48,7 +48,7 @@ function App() {
   }, [updateLocalStorage]);
 
   function handleDarkMode() {
-    // setDark(!dark);
+    setDark(!dark);
     localStorage.setItem("dark", JSON.stringify(!dark));
     document.documentElement.classList.toggle("dark");
   }
@@ -178,7 +178,6 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
-              dark={dark}
             />
             {item.id !== items[items.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -196,7 +195,6 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
-              dark={dark}
             />
             {item.id !== searchItems[searchItems.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -214,7 +212,6 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
-              dark={dark}
             />
             {item.id !== filteredItems[filteredItems.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -222,7 +219,7 @@ function App() {
           </>
         ))}
       <button
-        className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 "
+        className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 focus:outline-none"
         onClick={handleAddModalOpen}
       >
         <img src={plus} />
@@ -233,7 +230,6 @@ function App() {
           onClose={handleAddModalClose}
           onUpdate={handleUpdateLocalStorage}
           items={items}
-          dark={dark}
         />
       )}
       {editModal.isOpen && (
@@ -242,7 +238,6 @@ function App() {
           open={editModal.isOpen}
           onClose={handleEditModalClose}
           onApply={handleEditNote}
-          dark={dark}
         />
       )}
     </main>

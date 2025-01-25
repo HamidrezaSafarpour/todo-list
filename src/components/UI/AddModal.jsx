@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Input from "./Input";
 import { createPortal } from "react-dom";
 
-export default function AddModal({ open, onClose, onUpdate, items, dark }) {
+export default function AddModal({ open, onClose, onUpdate, items }) {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
 
@@ -13,14 +13,6 @@ export default function AddModal({ open, onClose, onUpdate, items, dark }) {
       dialogRef.current.close();
     }
   }, [open]);
-
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [dark]);
 
   function handleInputChange(event) {
     setAddValue(event.target.value);

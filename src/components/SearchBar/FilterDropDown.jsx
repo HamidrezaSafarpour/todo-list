@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Arrow from "../../assets/arrow-234.svg";
 
-export default function FilterDropDown({ onFilter, onTextChange, dark }) {
+export default function FilterDropDown({ onFilter, onTextChange }) {
   const [statusItems, setStatusItems] = useState("ALL");
 
   function handleChangeStatus(status) {

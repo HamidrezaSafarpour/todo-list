@@ -24,6 +24,7 @@ function App() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
   const [status, setStatus] = useState("base");
+  const [filterText, setFilterText] = useState("ALL");
 
   function handleUpdateLocalStorage() {
     setUpdateLocalStorage(!updateLocalStorage);
@@ -104,9 +105,19 @@ function App() {
     handleUpdateLocalStorage();
   }
 
+  function handleFilterTextChange(text) {
+    setFilterText(text);
+  }
+
   function handleSearch(event) {
     if (event.target.value === "") {
-      setStatus("base");
+      if (filterText === "ALL") {
+        setStatus("base");
+      } else if (filterText === "Complete") {
+        setStatus("filtering");
+      } else {
+        setStatus("progressing");
+      }
       return;
     }
     const searched = items.filter((item) =>
@@ -133,7 +144,11 @@ function App() {
   return (
     <main className="p-2 h-[600px] relative flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
-      <SearchBar onSearch={handleSearch} onFilter={handleFilter} />
+      <SearchBar
+        onSearch={handleSearch}
+        onFilter={handleFilter}
+        onTextChange={handleFilterTextChange}
+      />
       {items.length > 0 &&
         status === "base" &&
         items.map((item) => (

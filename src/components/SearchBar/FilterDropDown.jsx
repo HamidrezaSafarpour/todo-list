@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Arrow from "../../assets/arrow-234.svg";
 
-export default function FilterDropDown({ onFilter }) {
+export default function FilterDropDown({ onFilter, onTextChange }) {
   const [statusItems, setStatusItems] = useState("ALL");
 
   function handleChangeStatus(status) {
     setStatusItems(status);
+    onTextChange(status);
   }
 
   return (
@@ -16,7 +17,7 @@ export default function FilterDropDown({ onFilter }) {
           <img className="w-4 mt-1" src={Arrow} alt="arrow icon" />
         </span>
       </div>
-      <div className="hidden flex-col bg-[#f7f7f7] rounded-md border-[#6C63FF] border group-hover:flex absolute top-11 w-[110px] p-2 items-start">
+      <div className="hidden flex-col bg-[#f7f7f7] rounded-md border-[#6C63FF] border-2 group-hover:flex absolute top-11 w-[110px] p-2 items-start">
         <span
           onClick={() => {
             onFilter("base");
@@ -26,6 +27,7 @@ export default function FilterDropDown({ onFilter }) {
         >
           All Note
         </span>
+        <div className="bg-[#6C63FF] h-0.5 w-full rounded-md"></div>
         <span
           onClick={() => {
             onFilter("filtering");
@@ -35,6 +37,8 @@ export default function FilterDropDown({ onFilter }) {
         >
           Completed
         </span>
+        <div className="bg-[#6C63FF] h-0.5 w-full rounded-md"></div>
+
         <span
           onClick={() => {
             onFilter("progressing");

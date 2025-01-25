@@ -142,7 +142,7 @@ function App() {
   }
 
   return (
-    <main className="p-2 h-[600px] relative flex flex-col items-center">
+    <main className="p-2 min-h-[600px] relative flex flex-col items-center pb-16">
       <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
       <SearchBar
         onSearch={handleSearch}

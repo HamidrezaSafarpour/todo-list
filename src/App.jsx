@@ -20,7 +20,10 @@ function App() {
     isChecked: false,
   });
   const [items, setItems] = useState([]);
+  const [searchItems, setSearchItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
+  const [status, setStatus] = useState("base");
 
   function handleUpdateLocalStorage() {
     setUpdateLocalStorage(!updateLocalStorage);
@@ -81,12 +84,48 @@ function App() {
     handleUpdateLocalStorage();
   }
 
+  //add search function, set status state to searching and filter items with that includes search value
+  function handleSearch(event) {
+    if (event.target.value === "") {
+      setStatus("base");
+      return;
+    }
+    const searched = items.filter((item) =>
+      item.title.includes(event.target.value)
+    );
+    setStatus("searching");
+    setSearchItems(searched);
+  }
+
+  //add filter function, set status state to filtering and filter items that isChecked
+
+  function handleFilter(isFilter) {
+    if (isFilter) {
+      const filtered = items.filter((item) => item.isChecked);
+      setStatus("filtering");
+      setFilteredItems(filtered);
+    } else {
+      setStatus("base");
+    }
+  }
+
   return (
     <main className="p-2 h-[600px] relative flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       {items.length > 0 &&
+        status === "base" &&
         items.map((item) => (
+          <TodoListItem
+            onEdit={handleEditModalOpen}
+            title={item.title}
+            key={item.id}
+            id={item.id}
+            onDelete={handleDeleteItem}
+          />
+        ))}
+      {status === "searching" &&
+        searchItems.map((item) => (
           <TodoListItem
             onEdit={handleEditModalOpen}
             title={item.title}

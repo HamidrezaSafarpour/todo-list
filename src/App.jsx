@@ -84,6 +84,22 @@ function App() {
     handleUpdateLocalStorage();
   }
 
+  function handleChecked(event, id) {
+    const updateChecked = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, isChecked: event.target.checked };
+      }
+      return item;
+    });
+    if (status === "filtering") {
+      const filtered = updateChecked.filter((item) => item.isChecked);
+      setFilteredItems(filtered);
+    }
+    setItems(updateChecked);
+    localStorage.setItem("items", JSON.stringify(updateChecked));
+    handleUpdateLocalStorage();
+  }
+
   //add search function, set status state to searching and filter items with that includes search value
   function handleSearch(event) {
     if (event.target.value === "") {
@@ -112,7 +128,7 @@ function App() {
   return (
     <main className="p-2 h-[600px] relative flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={handleSearch} onFilter={handleFilter} />
       {items.length > 0 &&
         status === "base" &&
         items.map((item) => (
@@ -122,6 +138,8 @@ function App() {
             key={item.id}
             id={item.id}
             onDelete={handleDeleteItem}
+            isChecked={item.isChecked}
+            onChecked={handleChecked}
           />
         ))}
       {status === "searching" &&
@@ -132,6 +150,20 @@ function App() {
             key={item.id}
             id={item.id}
             onDelete={handleDeleteItem}
+            isChecked={item.isChecked}
+            onChecked={handleChecked}
+          />
+        ))}
+      {status === "filtering" &&
+        filteredItems.map((item) => (
+          <TodoListItem
+            onEdit={handleEditModalOpen}
+            title={item.title}
+            key={item.id}
+            id={item.id}
+            onDelete={handleDeleteItem}
+            isChecked={item.isChecked}
+            onChecked={handleChecked}
           />
         ))}
       <button

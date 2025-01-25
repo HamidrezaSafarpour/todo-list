@@ -2,28 +2,30 @@ import { useState } from "react";
 import pencil from "../../assets/pencil.svg";
 import trash from "../../assets/trash.svg";
 
-export default function TodoListItem({ onEdit, title, id, onDelete }) {
-  const [isChecked, setIsChecked] = useState(false);
-  //   const [isHovered, setIsHovered] = useState(false);
+export default function TodoListItem({
+  onEdit,
+  title,
+  id,
+  onDelete,
+  isChecked,
+  onChecked,
+}) {
+  // const [isChecked, setIsChecked] = useState(false);
 
-  function handleChecked() {
-    setIsChecked(!isChecked);
-  }
-  //   function handleHover() {
-  //     setIsHovered(!isHovered);
-  //   }
+  // function handleChecked() {
+  //   setIsChecked(!isChecked);
+  // }
 
   return (
-    <div
-      className="flex justify-between w-[calc(100%_-_40px)] group"
-      //   onMouseEnter={handleHover}
-      //   onMouseLeave={handleHover}
-    >
+    <div className="flex justify-between w-[calc(100%_-_40px)] group m-1">
       <div className="flex gap-2">
         <input
           type="checkbox"
           className="accent-[#6C63FF] w-4"
-          onChange={handleChecked}
+          onChange={() => {
+            onChecked(event, id);
+          }}
+          checked={isChecked}
         />
         {!isChecked ? (
           <p className="font-bold">{title}</p>

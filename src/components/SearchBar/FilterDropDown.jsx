@@ -19,19 +19,30 @@ export default function FilterDropDown({ onFilter }) {
       <div className="hidden flex-col bg-[#f7f7f7] rounded-md border-[#6C63FF] border group-hover:flex absolute top-11 w-[110px] p-2 items-start">
         <span
           onClick={() => {
-            onFilter(false);
+            onFilter("base");
             handleChangeStatus("ALL");
           }}
+          className="font-bold text-gray-500"
         >
           All Note
         </span>
         <span
           onClick={() => {
-            onFilter(true);
+            onFilter("filtering");
             handleChangeStatus("Complete");
           }}
+          className="font-bold text-gray-500"
         >
           Completed
+        </span>
+        <span
+          onClick={() => {
+            onFilter("progressing");
+            handleChangeStatus("Progress");
+          }}
+          className="font-bold text-gray-500"
+        >
+          Progressing
         </span>
       </div>
     </div>

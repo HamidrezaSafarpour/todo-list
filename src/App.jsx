@@ -95,12 +95,15 @@ function App() {
       const filtered = updateChecked.filter((item) => item.isChecked);
       setFilteredItems(filtered);
     }
+    if (status === "progressing") {
+      const filtered = updateChecked.filter((item) => !item.isChecked);
+      setFilteredItems(filtered);
+    }
     setItems(updateChecked);
     localStorage.setItem("items", JSON.stringify(updateChecked));
     handleUpdateLocalStorage();
   }
 
-  //add search function, set status state to searching and filter items with that includes search value
   function handleSearch(event) {
     if (event.target.value === "") {
       setStatus("base");
@@ -113,12 +116,14 @@ function App() {
     setSearchItems(searched);
   }
 
-  //add filter function, set status state to filtering and filter items that isChecked
-
-  function handleFilter(isFilter) {
-    if (isFilter) {
+  function handleFilter(status) {
+    if (status === "filtering") {
       const filtered = items.filter((item) => item.isChecked);
-      setStatus("filtering");
+      setStatus(status);
+      setFilteredItems(filtered);
+    } else if (status === "progressing") {
+      const filtered = items.filter((item) => !item.isChecked);
+      setStatus(status);
       setFilteredItems(filtered);
     } else {
       setStatus("base");
@@ -154,7 +159,7 @@ function App() {
             onChecked={handleChecked}
           />
         ))}
-      {status === "filtering" &&
+      {(status === "filtering" || status === "progressing") &&
         filteredItems.map((item) => (
           <TodoListItem
             onEdit={handleEditModalOpen}

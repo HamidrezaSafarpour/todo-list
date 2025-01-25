@@ -2,7 +2,7 @@ import { useState } from "react";
 import pencil from "../../assets/pencil.svg";
 import trash from "../../assets/trash.svg";
 
-export default function TodoListItem({ onEdit, title }) {
+export default function TodoListItem({ onEdit, title, id, onDelete }) {
   const [isChecked, setIsChecked] = useState(false);
   //   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,11 +34,16 @@ export default function TodoListItem({ onEdit, title }) {
       <div className="gap-2 hidden group-hover:flex">
         <span
           className="bg-[#F7F7F7] p-0 w-fit hover:border-none cursor-pointer"
-          onClick={() => onEdit(title, isChecked)}
+          onClick={() => onEdit(title, isChecked, id)}
         >
           <img src={pencil} />
         </span>
-        <span className="bg-[#F7F7F7] p-0 w-fit hover:border-none cursor-pointer">
+        <span
+          className="bg-[#F7F7F7] p-0 w-fit hover:border-none cursor-pointer"
+          onClick={() => {
+            onDelete(id);
+          }}
+        >
           <img src={trash} />
         </span>
       </div>

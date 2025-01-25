@@ -1,7 +1,7 @@
 import plus from "./assets/plus.png";
 import "./App.css";
 import SearchBar from "./components/SearchBar/SearchBar";
-import TodoListItem from "./components/TodoList/TodoListItem";
+import TodoListItem from "./components/TodoList/TodoListItem.jsx";
 import AddModal from "./components/UI/AddModal";
 import EditModal from "./components/UI/EditModal";
 import { useEffect, useState } from "react";
@@ -19,27 +19,20 @@ function App() {
     value: "",
     isChecked: false,
   });
-  const [items, setItems] = useState();
+  const [items, setItems] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
-  // console.log(items);
 
   function handleUpdateLocalStorage() {
     setUpdateLocalStorage(!updateLocalStorage);
   }
 
   useEffect(() => {
-    const itemsFromLocalStorage = [];
-    Object.keys(localStorage).forEach((key) => {
-      if (key !== "count") {
-        try {
-          const item = JSON.parse(localStorage.getItem(key));
-          itemsFromLocalStorage.unshift(item);
-        } catch (error) {
-          console.error(`Error parsing item with key ${key}:`, error);
-        }
-      }
-    });
-    setItems(itemsFromLocalStorage);
+    let itemsFromLocalStorage = [];
+    itemsFromLocalStorage = JSON.parse(localStorage.getItem("items"));
+
+    if (itemsFromLocalStorage) {
+      setItems(itemsFromLocalStorage);
+    }
   }, [updateLocalStorage]);
   function handleAddModalOpen() {
     setIsAddModalOpen(true);
@@ -47,31 +40,26 @@ function App() {
   function handleAddModalClose() {
     setIsAddModalOpen(false);
   }
-  function handleEditModalOpen(value, isChecked) {
+  function handleEditModalOpen(value, isChecked, id) {
     setEditModal({
       isOpen: true,
       value: value,
       isChecked: isChecked,
+      id: id,
     });
   }
 
   function handleEditNote(updatedValue) {
-    Object.keys(localStorage).map((key) => {
-      console.log("test: " + key);
-
-      if (key === editModal.value) {
-        const updatedItem = {
-          id: Number(key),
-          isChecked: editModal.isChecked,
-          title: updatedValue,
-        };
-        try {
-          localStorage.setItem(key, JSON.stringify(updatedItem));
-        } catch (error) {
-          console.error(`Error parsing item with key ${key}:`, error);
-        }
+    const editedItems = items.map((item) => {
+      if (item.id === editModal.id) {
+        return { ...item, title: updatedValue };
       }
+      return item;
     });
+
+    setItems(editedItems);
+    localStorage.setItem("items", JSON.stringify(editedItems));
+
     handleUpdateLocalStorage();
     handleEditModalClose();
   }
@@ -83,28 +71,42 @@ function App() {
       isChecked: false,
     });
   }
-  // console.log(isAddModalOpen);
+
+  function handleDeleteItem(id) {
+    const updatedItems = items.filter((item) => item.id !== id);
+    console.log("updated Items: " + JSON.stringify(updatedItems));
+
+    setItems(updatedItems);
+    localStorage.setItem("items", JSON.stringify(updatedItems));
+    handleUpdateLocalStorage();
+  }
 
   return (
     <main className="p-2 h-[600px] relative flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
       <SearchBar />
-      {items &&
+      {items.length > 0 &&
         items.map((item) => (
           <TodoListItem
             onEdit={handleEditModalOpen}
             title={item.title}
             key={item.id}
+            id={item.id}
+            onDelete={handleDeleteItem}
           />
         ))}
-      <button className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 ">
-        <img src={plus} onClick={handleAddModalOpen} />
+      <button
+        className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 "
+        onClick={handleAddModalOpen}
+      >
+        <img src={plus} />
       </button>
       {isAddModalOpen && (
         <AddModal
           open={isAddModalOpen}
           onClose={handleAddModalClose}
           onUpdate={handleUpdateLocalStorage}
+          items={items}
         />
       )}
       {editModal.isOpen && (

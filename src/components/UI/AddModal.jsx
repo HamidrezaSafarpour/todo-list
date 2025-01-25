@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Input from "./Input";
 import { createPortal } from "react-dom";
-import { v4 as uuid } from "uuid";
 
-export default function AddModal({ open, onClose, onUpdate }) {
+export default function AddModal({ open, onClose, onUpdate, items }) {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
 
@@ -15,33 +14,27 @@ export default function AddModal({ open, onClose, onUpdate }) {
     }
   }, [open]);
 
-  //   if (!open) {
-  //     return null;
-  //   }
   function handleInputChange(event) {
     setAddValue(event.target.value);
   }
 
   function handleAddNote() {
-    let id = Number(localStorage.getItem("count"));
-    console.log(id);
-    id = id + 1;
-    localStorage.setItem("count", id);
+    const newId =
+      items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 0;
 
     const item = {
-      id: id,
+      id: newId,
       isChecked: false,
       title: addValue,
     };
-    localStorage.setItem(id, JSON.stringify(item));
+    let itemsPrev = items;
+
+    itemsPrev.unshift(item);
+    localStorage.setItem("items", JSON.stringify(itemsPrev));
+
     onClose();
     onUpdate();
   }
-  // useEffect(() => {
-  //   Object.keys(localStorage).forEach((key) =>
-  //     console.log(JSON.parse(localStorage.getItem(key)))
-  //   );
-  // }, []);
 
   return createPortal(
     <dialog

@@ -1,9 +1,10 @@
-import themeLogo from "../../assets/Vector.svg";
+import darkLogo from "../../assets/dark.svg";
+import lightLogo from "../../assets/light.svg";
 
-export default function Theme() {
+export default function Theme({ onChangeTheme, dark }) {
   return (
-    <button className="bg-[#6C63FF] w-14">
-      <img src={themeLogo} alt="Theme Logo" />
+    <button className="bg-[#6C63FF] w-14" onClick={onChangeTheme}>
+      <img src={dark ? lightLogo : darkLogo} alt="Theme Logo" />
     </button>
   );
 }

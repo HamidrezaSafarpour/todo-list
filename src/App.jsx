@@ -7,12 +7,20 @@ import EditModal from "./components/UI/EditModal";
 import { useEffect, useState } from "react";
 
 function App() {
+  const [dark, setDark] = useState(false);
   useEffect(() => {
-    const count = localStorage.getItem("count");
-    {
-      count === isNaN && localStorage.setItem("count", 0);
+    const isDark = JSON.parse(localStorage.getItem("dark"));
+    if (isDark) {
+      setDark(isDark);
     }
   }, []);
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [dark]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({
     isOpen: false,
@@ -38,6 +46,13 @@ function App() {
       setItems(itemsFromLocalStorage);
     }
   }, [updateLocalStorage]);
+
+  function handleDarkMode() {
+    // setDark(!dark);
+    localStorage.setItem("dark", JSON.stringify(!dark));
+    document.documentElement.classList.toggle("dark");
+  }
+
   function handleAddModalOpen() {
     setIsAddModalOpen(true);
   }
@@ -142,12 +157,14 @@ function App() {
   }
 
   return (
-    <main className="p-2 min-h-[600px] relative flex flex-col items-center pb-16">
-      <h1 className="text-2xl font-bold mb-4">TODO LIST</h1>
+    <main className="p-2 min-h-[600px] relative flex flex-col items-center pb-16 dark:bg-[#252525]">
+      <h1 className="text-2xl font-bold mb-4 dark:text-[#F7F7F7]">TODO LIST</h1>
       <SearchBar
         onSearch={handleSearch}
         onFilter={handleFilter}
         onTextChange={handleFilterTextChange}
+        onChangeTheme={handleDarkMode}
+        dark={dark}
       />
       {items.length > 0 &&
         status === "base" &&
@@ -161,6 +178,7 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
+              dark={dark}
             />
             {item.id !== items[items.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -178,6 +196,7 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
+              dark={dark}
             />
             {item.id !== searchItems[searchItems.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -195,6 +214,7 @@ function App() {
               onDelete={handleDeleteItem}
               isChecked={item.isChecked}
               onChecked={handleChecked}
+              dark={dark}
             />
             {item.id !== filteredItems[filteredItems.length - 1].id && (
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
@@ -213,6 +233,7 @@ function App() {
           onClose={handleAddModalClose}
           onUpdate={handleUpdateLocalStorage}
           items={items}
+          dark={dark}
         />
       )}
       {editModal.isOpen && (
@@ -221,6 +242,7 @@ function App() {
           open={editModal.isOpen}
           onClose={handleEditModalClose}
           onApply={handleEditNote}
+          dark={dark}
         />
       )}
     </main>

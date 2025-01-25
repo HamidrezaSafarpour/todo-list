@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Arrow from "../../assets/arrow-234.svg";
 
-export default function FilterDropDown({ onFilter, onTextChange }) {
+export default function FilterDropDown({ onFilter, onTextChange, dark }) {
   const [statusItems, setStatusItems] = useState("ALL");
 
   function handleChangeStatus(status) {
@@ -13,7 +13,7 @@ export default function FilterDropDown({ onFilter, onTextChange }) {
     <div className="bg-[#6C63FF] flex flex-col gap-3 rounded-md cursor-pointer group relative">
       <div className="flex justify-between w-[110px] p-2">
         <p className="text-white font-bold">{statusItems}</p>
-        <span className="text-white font-bold">
+        <span className="text-white font-bold group-hover:rotate-180">
           <img className="w-4 mt-1" src={Arrow} alt="arrow icon" />
         </span>
       </div>

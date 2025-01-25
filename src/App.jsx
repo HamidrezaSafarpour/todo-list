@@ -152,39 +152,54 @@ function App() {
       {items.length > 0 &&
         status === "base" &&
         items.map((item) => (
-          <TodoListItem
-            onEdit={handleEditModalOpen}
-            title={item.title}
-            key={item.id}
-            id={item.id}
-            onDelete={handleDeleteItem}
-            isChecked={item.isChecked}
-            onChecked={handleChecked}
-          />
+          <>
+            <TodoListItem
+              onEdit={handleEditModalOpen}
+              title={item.title.toUpperCase()}
+              key={item.id}
+              id={item.id}
+              onDelete={handleDeleteItem}
+              isChecked={item.isChecked}
+              onChecked={handleChecked}
+            />
+            {item.id !== items[items.length - 1].id && (
+              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+            )}
+          </>
         ))}
       {status === "searching" &&
         searchItems.map((item) => (
-          <TodoListItem
-            onEdit={handleEditModalOpen}
-            title={item.title}
-            key={item.id}
-            id={item.id}
-            onDelete={handleDeleteItem}
-            isChecked={item.isChecked}
-            onChecked={handleChecked}
-          />
+          <>
+            <TodoListItem
+              onEdit={handleEditModalOpen}
+              title={item.title.toUpperCase()}
+              key={item.id}
+              id={item.id}
+              onDelete={handleDeleteItem}
+              isChecked={item.isChecked}
+              onChecked={handleChecked}
+            />
+            {item.id !== searchItems[searchItems.length - 1].id && (
+              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+            )}
+          </>
         ))}
       {(status === "filtering" || status === "progressing") &&
         filteredItems.map((item) => (
-          <TodoListItem
-            onEdit={handleEditModalOpen}
-            title={item.title}
-            key={item.id}
-            id={item.id}
-            onDelete={handleDeleteItem}
-            isChecked={item.isChecked}
-            onChecked={handleChecked}
-          />
+          <>
+            <TodoListItem
+              onEdit={handleEditModalOpen}
+              title={item.title.toUpperCase()}
+              key={item.id}
+              id={item.id}
+              onDelete={handleDeleteItem}
+              isChecked={item.isChecked}
+              onChecked={handleChecked}
+            />
+            {item.id !== filteredItems[filteredItems.length - 1].id && (
+              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+            )}
+          </>
         ))}
       <button
         className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 "

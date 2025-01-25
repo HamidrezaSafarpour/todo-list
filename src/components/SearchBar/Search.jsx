@@ -7,7 +7,7 @@ export default function Search({ onSearch }) {
       <Input
         type="text"
         placeholder="Search note..."
-        classes="min-w-96"
+        classes="min-w-96 bg-[#f7f7f7]"
         onChange={onSearch}
       />
       <img

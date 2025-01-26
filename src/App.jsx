@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import emptyLight from "./assets/empty-light.png";
 import emptyDark from "./assets/empty-dark.png";
 import { motion } from "framer-motion";
-import ModalContext, { ModalContextProvider } from "./store/ModalContext.jsx";
+import ModalContext from "./store/ModalContext.jsx";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -25,12 +25,6 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [dark]);
-  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  // const [editModal, setEditModal] = useState({
-  //   isOpen: false,
-  //   value: "",
-  //   isChecked: false,
-  // });
   const [items, setItems] = useState([]);
   const [searchItems, setSearchItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -62,29 +56,6 @@ function App() {
     localStorage.setItem("dark", JSON.stringify(!dark));
     document.documentElement.classList.toggle("dark");
   }
-
-  // function handleAddModalOpen() {
-  //   setIsAddModalOpen(true);
-  // }
-  // function handleAddModalClose() {
-  //   setIsAddModalOpen(false);
-  // }
-  // function handleEditModalOpen(value, isChecked, id) {
-  //   setEditModal({
-  //     isOpen: true,
-  //     value: value,
-  //     isChecked: isChecked,
-  //     id: id,
-  //   });
-  // }
-
-  // function handleEditModalClose() {
-  //   setEditModal({
-  //     isOpen: false,
-  //     value: "",
-  //     isChecked: false,
-  //   });
-  // }
 
   function handleEditNote(updatedValue) {
     const editedItems = items.map((item) => {
@@ -205,7 +176,6 @@ function App() {
         items.map((item) => (
           <>
             <TodoListItem
-              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -236,7 +206,6 @@ function App() {
         searchItems.map((item) => (
           <>
             <TodoListItem
-              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -257,7 +226,6 @@ function App() {
         filteredItems.map((item) => (
           <>
             <TodoListItem
-              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -283,21 +251,9 @@ function App() {
       </motion.button>
 
       {isAddModalOpen && (
-        <AddModal
-          // open={isAddModalOpen}
-          // onClose={handleAddModalClose}
-          onUpdate={handleUpdateLocalStorage}
-          items={items}
-        />
+        <AddModal onUpdate={handleUpdateLocalStorage} items={items} />
       )}
-      {editModal.isOpen && (
-        <EditModal
-          // value={editModal.value}
-          // open={editModal.isOpen}
-          // onClose={handleEditModalClose}
-          onApply={handleEditNote}
-        />
-      )}
+      {editModal.isOpen && <EditModal onApply={handleEditNote} />}
     </motion.main>
   );
 }

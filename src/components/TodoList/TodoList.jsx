@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 import TodoListItem from "./TodoListItem";
 import emptyLight from "../../assets/empty-light.png";
@@ -15,7 +15,7 @@ export default function TodoList() {
       {items.length > 0 ? (
         status === "base" &&
         items.map((item) => (
-          <>
+          <Fragment key={item.id}>
             <TodoListItem
               title={item.title.toUpperCase()}
               key={item.id}
@@ -29,7 +29,7 @@ export default function TodoList() {
                 className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
               ></motion.div>
             )}
-          </>
+          </Fragment>
         ))
       ) : (
         <motion.div
@@ -43,7 +43,7 @@ export default function TodoList() {
       )}
       {status === "searching" &&
         searchItems.map((item) => (
-          <>
+          <Fragment key={item.id}>
             <TodoListItem
               title={item.title.toUpperCase()}
               key={item.id}
@@ -57,11 +57,11 @@ export default function TodoList() {
                 className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
               ></motion.div>
             )}
-          </>
+          </Fragment>
         ))}
       {(status === "filtering" || status === "progressing") &&
         filteredItems.map((item) => (
-          <>
+          <Fragment key={item.id}>
             <TodoListItem
               title={item.title.toUpperCase()}
               key={item.id}
@@ -75,7 +75,7 @@ export default function TodoList() {
                 className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
               ></motion.div>
             )}
-          </>
+          </Fragment>
         ))}
     </>
   );

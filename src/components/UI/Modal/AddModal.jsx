@@ -8,7 +8,7 @@ export default function AddModal() {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
   const { isAddModalOpen, hideAddModal } = useContext(ModalContext);
-  const { items, updateLocalStorageFn } = useContext(ItemsStateValueContext);
+  const { items, setItems } = useContext(ItemsStateValueContext);
 
   useEffect(() => {
     if (isAddModalOpen) {
@@ -38,13 +38,12 @@ export default function AddModal() {
       isChecked: false,
       title: addValue,
     };
-    let itemsPrev = items;
+    let itemsPrev = [...items];
 
     itemsPrev.unshift(item);
+    setItems(itemsPrev);
     localStorage.setItem("items", JSON.stringify(itemsPrev));
-
     hideAddModal();
-    updateLocalStorageFn();
   }
 
   return createPortal(

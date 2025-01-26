@@ -9,9 +9,7 @@ export default function EditModal() {
   // const inputValueRef = useRef();
   const { editModal, hideEditModal } = useContext(ModalContext);
   const [updateValue, setUpdateValue] = useState(editModal.value);
-  const { items, setItems, updateLocalStorageFn } = useContext(
-    ItemsStateValueContext
-  );
+  const { items, setItems } = useContext(ItemsStateValueContext);
 
   useEffect(() => {
     if (editModal.isOpen) {
@@ -46,8 +44,6 @@ export default function EditModal() {
 
     setItems(editedItems);
     localStorage.setItem("items", JSON.stringify(editedItems));
-
-    updateLocalStorageFn();
   }
 
   return createPortal(

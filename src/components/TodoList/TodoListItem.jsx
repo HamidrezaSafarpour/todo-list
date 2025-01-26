@@ -7,14 +7,14 @@ import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
 export default function TodoListItem({ title, id, isChecked }) {
   const { showEditModal } = useContext(ModalContext);
-  const { items, status, setItems, setFilteredItems, updateLocalStorageFn } =
-    useContext(ItemsStateValueContext);
+  const { items, status, setItems, setFilteredItems } = useContext(
+    ItemsStateValueContext
+  );
 
   function handleDeleteItem() {
     const updatedItems = items.filter((item) => item.id !== id);
     setItems(updatedItems);
     localStorage.setItem("items", JSON.stringify(updatedItems));
-    updateLocalStorageFn();
   }
 
   function handleChecked(event) {
@@ -34,7 +34,6 @@ export default function TodoListItem({ title, id, isChecked }) {
     }
     setItems(updateChecked);
     localStorage.setItem("items", JSON.stringify(updateChecked));
-    updateLocalStorageFn();
   }
 
   return (

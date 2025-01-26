@@ -8,7 +8,6 @@ const ItemsStateValueContext = createContext({
   status: "",
   filterText: "",
   setDark: () => {},
-  updateLocalStorageFn: () => {},
   setItems: () => {},
   setSearchItems: () => {},
   setFilteredItems: () => {},
@@ -29,7 +28,10 @@ export function ItemsStateValueContextProvider({ children }) {
     const isDark = JSON.parse(localStorage.getItem("dark"));
     setDark(isDark);
   }, []);
-  console.log(dark);
+
+  useEffect(() => {
+    console.log({ items });
+  }, [items]);
 
   useEffect(() => {
     if (dark) {
@@ -38,10 +40,6 @@ export function ItemsStateValueContextProvider({ children }) {
       document.documentElement.classList.remove("dark");
     }
   }, [dark]);
-
-  function handleUpdateLocalStorage() {
-    setUpdateLocalStorage(!updateLocalStorage);
-  }
 
   function handleDarkMode() {
     setDark(!dark);
@@ -56,7 +54,7 @@ export function ItemsStateValueContextProvider({ children }) {
     if (itemsFromLocalStorage) {
       setItems(itemsFromLocalStorage);
     }
-  }, [updateLocalStorage]);
+  }, []);
 
   function handleSetItems(value) {
     setItems(value);
@@ -82,7 +80,6 @@ export function ItemsStateValueContextProvider({ children }) {
     status,
     filterText,
     setDark: handleDarkMode,
-    updateLocalStorageFn: handleUpdateLocalStorage,
     setItems: handleSetItems,
     setSearchItems: handleSearchItems,
     setFilteredItems: handleFilteredItems,

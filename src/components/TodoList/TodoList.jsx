@@ -37,7 +37,8 @@ export default function TodoList() {
           animate={{ opacity: 1 }}
           className="m-10"
         >
-          <img src={dark ? emptyDark : emptyLight} />
+          <img src={emptyDark} className="hidden dark:block" />
+          <img src={emptyLight} className="block dark:hidden" />
           <span className="text-[#252525] dark:text-[#F7F7F7]">Empty...</span>
         </motion.div>
       )}

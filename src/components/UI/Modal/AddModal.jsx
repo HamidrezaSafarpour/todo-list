@@ -3,6 +3,7 @@ import Input from "../Input";
 import { createPortal } from "react-dom";
 import ModalContext from "../../../store/ModalContext";
 import ItemsStateValueContext from "../../../store/ItemsStateValueContext";
+import { motion } from "framer-motion";
 
 export default function AddModal() {
   const dialogRef = useRef();
@@ -47,7 +48,10 @@ export default function AddModal() {
   }
 
   return createPortal(
-    <dialog
+    <motion.dialog
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0 }}
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
       onClose={hideAddModal}
@@ -77,7 +81,7 @@ export default function AddModal() {
           </button>
         </div>
       </form>
-    </dialog>,
+    </motion.dialog>,
     document.getElementById("modal")
   );
 }

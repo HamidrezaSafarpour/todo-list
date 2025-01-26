@@ -1,13 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 
 const ItemsStateValueContext = createContext({
-  dark: false,
   items: [],
   searchItems: [],
   filteredItems: [],
   status: "",
   filterText: "",
-  setDark: () => {},
   setItems: () => {},
   setSearchItems: () => {},
   setFilteredItems: () => {},
@@ -16,36 +14,15 @@ const ItemsStateValueContext = createContext({
 });
 
 export function ItemsStateValueContextProvider({ children }) {
-  const [dark, setDark] = useState(false);
   const [items, setItems] = useState([]);
   const [searchItems, setSearchItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [status, setStatus] = useState("base");
-  const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
   const [filterText, setFilterText] = useState("ALL");
-
-  useEffect(() => {
-    const isDark = JSON.parse(localStorage.getItem("dark"));
-    setDark(isDark);
-  }, []);
 
   useEffect(() => {
     console.log({ items });
   }, [items]);
-
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [dark]);
-
-  function handleDarkMode() {
-    setDark(!dark);
-    localStorage.setItem("dark", JSON.stringify(!dark));
-    document.documentElement.classList.toggle("dark");
-  }
 
   useEffect(() => {
     let itemsFromLocalStorage = [];
@@ -73,13 +50,11 @@ export function ItemsStateValueContextProvider({ children }) {
   }
 
   const ItemsStateValueCtx = {
-    dark,
     items,
     searchItems,
     filteredItems,
     status,
     filterText,
-    setDark: handleDarkMode,
     setItems: handleSetItems,
     setSearchItems: handleSearchItems,
     setFilteredItems: handleFilteredItems,

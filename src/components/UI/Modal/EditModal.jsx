@@ -3,6 +3,7 @@ import Input from "../Input";
 import { createPortal } from "react-dom";
 import ModalContext from "../../../store/ModalContext";
 import ItemsStateValueContext from "../../../store/ItemsStateValueContext";
+import { motion } from "framer-motion";
 
 export default function EditModal() {
   const dialogRef = useRef();
@@ -47,7 +48,10 @@ export default function EditModal() {
   }
 
   return createPortal(
-    <dialog
+    <motion.dialog
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0 }}
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
       onClose={hideEditModal}
@@ -57,7 +61,7 @@ export default function EditModal() {
       <form onSubmit={handleApply}>
         <Input
           type="text"
-          value={editModal.value}
+          value={editModal.value.toLowerCase()}
           classes="my-2 w-[300px] dark:bg-[#252525] dark:text-[#F7F7F7]"
           onChange={handleChange}
         />
@@ -77,7 +81,7 @@ export default function EditModal() {
           </button>
         </div>
       </form>
-    </dialog>,
+    </motion.dialog>,
     document.getElementById("modal")
   );
 }

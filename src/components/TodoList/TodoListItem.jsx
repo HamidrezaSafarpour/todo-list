@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import pencil from "../../assets/pencil.svg";
 import trash from "../../assets/trash.svg";
+import { motion } from "framer-motion";
 
 export default function TodoListItem({
   onEdit,
@@ -11,7 +12,11 @@ export default function TodoListItem({
   onChecked,
 }) {
   return (
-    <div className="flex justify-between w-[calc(100%_-_40px)] group m-1">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="flex justify-between w-[calc(100%_-_40px)] group m-1"
+    >
       <div className="flex gap-2">
         <input
           type="checkbox"
@@ -43,6 +48,6 @@ export default function TodoListItem({
           <img src={trash} />
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 }

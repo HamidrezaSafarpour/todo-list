@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Arrow from "../../assets/arrow-234.svg";
+import { motion } from "framer-motion";
 
+const iconRotate = {
+  initial: { rotate: 0 },
+  hover: { rotate: 180 },
+};
 export default function FilterDropDown({ onFilter, onTextChange }) {
   const [statusItems, setStatusItems] = useState("ALL");
 
@@ -10,12 +15,16 @@ export default function FilterDropDown({ onFilter, onTextChange }) {
   }
 
   return (
-    <div className="bg-[#6C63FF] flex flex-col gap-3 rounded-md cursor-pointer group relative">
+    <motion.div
+      initial="initial"
+      whileHover="hover"
+      className="bg-[#6C63FF] flex flex-col gap-3 rounded-md cursor-pointer group relative"
+    >
       <div className="flex justify-between w-[110px] p-2">
         <p className="text-white font-bold">{statusItems}</p>
-        <span className="text-white font-bold group-hover:rotate-180">
+        <motion.span variants={iconRotate} className="text-white font-bold">
           <img className="w-4 mt-1" src={Arrow} alt="arrow icon" />
-        </span>
+        </motion.span>
       </div>
       <div className="hidden flex-col bg-[#f7f7f7] rounded-md border-[#6C63FF] border-2 group-hover:flex absolute top-11 w-[110px] p-2 items-start">
         <span
@@ -49,6 +58,6 @@ export default function FilterDropDown({ onFilter, onTextChange }) {
           Progressing
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -7,6 +7,7 @@ import EditModal from "./components/UI/EditModal";
 import { useEffect, useState } from "react";
 import emptyLight from "./assets/empty-light.png";
 import emptyDark from "./assets/empty-dark.png";
+import { motion } from "framer-motion";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -151,32 +152,39 @@ function App() {
     setSearchItems(searched);
   }
 
-  function handleFilter(status) {
-    if (status === "filtering") {
+  function handleFilter(filterStatus) {
+    console.log(filterStatus);
+
+    if (filterStatus === "filtering") {
       let filtered;
       {
-        searchItems.length > 0
+        status === "searching"
           ? (filtered = searchItems.filter((item) => item.isChecked))
           : (filtered = items.filter((item) => item.isChecked));
       }
-      setStatus(status);
+      setStatus(filterStatus);
       setFilteredItems(filtered);
-    } else if (status === "progressing") {
+    } else if (filterStatus === "progressing") {
       let filtered;
       {
-        searchItems.length > 0
+        status === "searching"
           ? (filtered = searchItems.filter((item) => !item.isChecked))
           : (filtered = items.filter((item) => !item.isChecked));
       }
-      setStatus(status);
+      setStatus(filterStatus);
       setFilteredItems(filtered);
     } else {
       setStatus("base");
     }
   }
+  console.log(searchItems);
 
   return (
-    <main className="p-2 min-h-[600px] relative flex flex-col items-center pb-16 dark:bg-[#252525]">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="p-2 min-h-[600px] relative flex flex-col items-center pb-16 dark:bg-[#252525]"
+    >
       <h1 className="text-2xl font-bold mb-4 dark:text-[#F7F7F7]">TODO LIST</h1>
       <SearchBar
         onSearch={handleSearch}
@@ -199,15 +207,23 @@ function App() {
               onChecked={handleChecked}
             />
             {item.id !== items[items.length - 1].id && (
-              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
+              ></motion.div>
             )}
           </>
         ))
       ) : (
-        <div className="m-10">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="m-10"
+        >
           <img src={dark ? emptyDark : emptyLight} />
           <span className="text-[#252525] dark:text-[#F7F7F7]">Empty...</span>
-        </div>
+        </motion.div>
       )}
       {status === "searching" &&
         searchItems.map((item) => (
@@ -222,7 +238,11 @@ function App() {
               onChecked={handleChecked}
             />
             {item.id !== searchItems[searchItems.length - 1].id && (
-              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
+              ></motion.div>
             )}
           </>
         ))}
@@ -239,16 +259,21 @@ function App() {
               onChecked={handleChecked}
             />
             {item.id !== filteredItems[filteredItems.length - 1].id && (
-              <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
+              ></motion.div>
             )}
           </>
         ))}
-      <button
+      <motion.button
+        whileHover={{ scale: 1.1 }}
         className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 focus:outline-none"
         onClick={handleAddModalOpen}
       >
         <img src={plus} />
-      </button>
+      </motion.button>
       {isAddModalOpen && (
         <AddModal
           open={isAddModalOpen}
@@ -265,7 +290,7 @@ function App() {
           onApply={handleEditNote}
         />
       )}
-    </main>
+    </motion.main>
   );
 }
 

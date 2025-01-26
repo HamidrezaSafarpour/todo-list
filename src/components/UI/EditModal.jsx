@@ -15,6 +15,12 @@ export default function EditModal({ open, onClose, value, onApply }) {
     }
   }, [open]);
 
+  function handleBackdropClick(event) {
+    if (event.target === dialogRef.current) {
+      onClose();
+    }
+  }
+
   function handleChange(event) {
     setUpdateValue(event.target.value);
   }
@@ -28,6 +34,7 @@ export default function EditModal({ open, onClose, value, onApply }) {
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
       onClose={onClose}
+      onClick={handleBackdropClick}
     >
       <h2 className="mt-2 font-medium dark:text-[#F7F7F7]">EDIT NOTE</h2>
       <form onSubmit={handleApply}>

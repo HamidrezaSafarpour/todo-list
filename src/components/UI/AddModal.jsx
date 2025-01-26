@@ -18,6 +18,33 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
     setAddValue(event.target.value);
   }
 
+  // useEffect(() => {
+  //   const handleBackdropClick = (event) => {
+  //     // Check if the click is on the backdrop
+  //     if (event.target === dialogRef.current) {
+  //       onClose(); // Close the dialog
+  //     }
+  //   };
+
+  //   const dialog = dialogRef.current;
+  //   if (dialog) {
+  //     dialog.addEventListener("click", handleBackdropClick);
+  //   }
+
+  //   // Cleanup the event listener when the component is unmounted
+  //   return () => {
+  //     if (dialog) {
+  //       dialog.removeEventListener("click", handleBackdropClick);
+  //     }
+  //   };
+  // }, []);
+  function handleBackdropClick(event) {
+    // Check if the click target is the dialog itself
+    if (event.target === dialogRef.current) {
+      onClose();
+    }
+  }
+
   function handleAddNote(event) {
     event.preventDefault();
     const newId =
@@ -42,6 +69,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
       onClose={onClose}
+      onClick={handleBackdropClick}
     >
       <h2 className="mt-2 font-medium dark:text-[#F7F7F7]">NEW NOTE</h2>
       <form onSubmit={handleAddNote}>

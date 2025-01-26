@@ -3,15 +3,40 @@ import pencil from "../../assets/pencil.svg";
 import trash from "../../assets/trash.svg";
 import { motion } from "framer-motion";
 import ModalContext from "../../store/ModalContext";
+import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
-export default function TodoListItem({
-  title,
-  id,
-  onDelete,
-  isChecked,
-  onChecked,
-}) {
+export default function TodoListItem({ title, id, isChecked }) {
   const { showEditModal } = useContext(ModalContext);
+  const { items, status, setItems, setFilteredItems, updateLocalStorageFn } =
+    useContext(ItemsStateValueContext);
+
+  function handleDeleteItem() {
+    const updatedItems = items.filter((item) => item.id !== id);
+    setItems(updatedItems);
+    localStorage.setItem("items", JSON.stringify(updatedItems));
+    updateLocalStorageFn();
+  }
+
+  function handleChecked(event) {
+    const updateChecked = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, isChecked: event.target.checked };
+      }
+      return item;
+    });
+    if (status === "filtering") {
+      const filtered = updateChecked.filter((item) => item.isChecked);
+      setFilteredItems(filtered);
+    }
+    if (status === "progressing") {
+      const filtered = updateChecked.filter((item) => !item.isChecked);
+      setFilteredItems(filtered);
+    }
+    setItems(updateChecked);
+    localStorage.setItem("items", JSON.stringify(updateChecked));
+    updateLocalStorageFn();
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -22,9 +47,7 @@ export default function TodoListItem({
         <input
           type="checkbox"
           className="accent-[#6C63FF] w-4"
-          onChange={() => {
-            onChecked(event, id);
-          }}
+          onChange={handleChecked}
           checked={isChecked}
         />
         {!isChecked ? (
@@ -42,9 +65,7 @@ export default function TodoListItem({
         </span>
         <span
           className="bg-[#F7F7F7] dark:bg-[#252525] p-0 w-fit hover:border-none cursor-pointer"
-          onClick={() => {
-            onDelete(id);
-          }}
+          onClick={handleDeleteItem}
         >
           <img src={trash} />
         </span>

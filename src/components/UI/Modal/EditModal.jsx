@@ -1,13 +1,17 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Input from "./Input";
+import Input from "../Input";
 import { createPortal } from "react-dom";
-import ModalContext from "../../store/ModalContext";
+import ModalContext from "../../../store/ModalContext";
+import ItemsStateValueContext from "../../../store/ItemsStateValueContext";
 
-export default function EditModal({ onApply }) {
+export default function EditModal() {
   const dialogRef = useRef();
   // const inputValueRef = useRef();
   const { editModal, hideEditModal } = useContext(ModalContext);
   const [updateValue, setUpdateValue] = useState(editModal.value);
+  const { items, setItems, updateLocalStorageFn } = useContext(
+    ItemsStateValueContext
+  );
 
   useEffect(() => {
     if (editModal.isOpen) {
@@ -29,7 +33,21 @@ export default function EditModal({ onApply }) {
   function handleApply(event) {
     event.preventDefault();
     hideEditModal();
-    onApply(updateValue);
+    handleEditNote();
+  }
+
+  function handleEditNote() {
+    const editedItems = items.map((item) => {
+      if (item.id === editModal.id) {
+        return { ...item, title: updateValue };
+      }
+      return item;
+    });
+
+    setItems(editedItems);
+    localStorage.setItem("items", JSON.stringify(editedItems));
+
+    updateLocalStorageFn();
   }
 
   return createPortal(

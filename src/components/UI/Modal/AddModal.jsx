@@ -1,12 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Input from "./Input";
+import Input from "../Input";
 import { createPortal } from "react-dom";
-import ModalContext from "../../store/ModalContext";
+import ModalContext from "../../../store/ModalContext";
+import ItemsStateValueContext from "../../../store/ItemsStateValueContext";
 
-export default function AddModal({ onUpdate, items }) {
+export default function AddModal() {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
   const { isAddModalOpen, hideAddModal } = useContext(ModalContext);
+  const { items, updateLocalStorageFn } = useContext(ItemsStateValueContext);
 
   useEffect(() => {
     if (isAddModalOpen) {
@@ -42,7 +44,7 @@ export default function AddModal({ onUpdate, items }) {
     localStorage.setItem("items", JSON.stringify(itemsPrev));
 
     hideAddModal();
-    onUpdate();
+    updateLocalStorageFn();
   }
 
   return createPortal(

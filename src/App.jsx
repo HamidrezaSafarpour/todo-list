@@ -5,6 +5,8 @@ import TodoListItem from "./components/TodoList/TodoListItem.jsx";
 import AddModal from "./components/UI/AddModal";
 import EditModal from "./components/UI/EditModal";
 import { useEffect, useState } from "react";
+import emptyLight from "./assets/empty-light.png";
+import emptyDark from "./assets/empty-dark.png";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -136,7 +138,7 @@ function App() {
       return;
     }
     let searched;
-    if (filterText === "Complete" || "Progress") {
+    if (filterText === "Complete" || filterText === "Progress") {
       searched = filteredItems.filter((item) =>
         item.title.includes(event.target.value)
       );
@@ -183,7 +185,7 @@ function App() {
         onChangeTheme={handleDarkMode}
         dark={dark}
       />
-      {items.length > 0 &&
+      {items.length > 0 ? (
         status === "base" &&
         items.map((item) => (
           <>
@@ -200,7 +202,13 @@ function App() {
               <div className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"></div>
             )}
           </>
-        ))}
+        ))
+      ) : (
+        <div className="m-10">
+          <img src={dark ? emptyDark : emptyLight} />
+          <span className="text-[#252525] dark:text-[#F7F7F7]">Empty...</span>
+        </div>
+      )}
       {status === "searching" &&
         searchItems.map((item) => (
           <>

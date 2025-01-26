@@ -4,10 +4,11 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import TodoListItem from "./components/TodoList/TodoListItem.jsx";
 import AddModal from "./components/UI/AddModal";
 import EditModal from "./components/UI/EditModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import emptyLight from "./assets/empty-light.png";
 import emptyDark from "./assets/empty-dark.png";
 import { motion } from "framer-motion";
+import ModalContext, { ModalContextProvider } from "./store/ModalContext.jsx";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -24,18 +25,24 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [dark]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [editModal, setEditModal] = useState({
-    isOpen: false,
-    value: "",
-    isChecked: false,
-  });
+  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // const [editModal, setEditModal] = useState({
+  //   isOpen: false,
+  //   value: "",
+  //   isChecked: false,
+  // });
   const [items, setItems] = useState([]);
   const [searchItems, setSearchItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
   const [status, setStatus] = useState("base");
   const [filterText, setFilterText] = useState("ALL");
+  const { isAddModalOpen, editModal, showAddModal, showEditModal } =
+    useContext(ModalContext);
+
+  useEffect(() => {
+    console.log(editModal);
+  }, [editModal]);
 
   function handleUpdateLocalStorage() {
     setUpdateLocalStorage(!updateLocalStorage);
@@ -56,20 +63,28 @@ function App() {
     document.documentElement.classList.toggle("dark");
   }
 
-  function handleAddModalOpen() {
-    setIsAddModalOpen(true);
-  }
-  function handleAddModalClose() {
-    setIsAddModalOpen(false);
-  }
-  function handleEditModalOpen(value, isChecked, id) {
-    setEditModal({
-      isOpen: true,
-      value: value,
-      isChecked: isChecked,
-      id: id,
-    });
-  }
+  // function handleAddModalOpen() {
+  //   setIsAddModalOpen(true);
+  // }
+  // function handleAddModalClose() {
+  //   setIsAddModalOpen(false);
+  // }
+  // function handleEditModalOpen(value, isChecked, id) {
+  //   setEditModal({
+  //     isOpen: true,
+  //     value: value,
+  //     isChecked: isChecked,
+  //     id: id,
+  //   });
+  // }
+
+  // function handleEditModalClose() {
+  //   setEditModal({
+  //     isOpen: false,
+  //     value: "",
+  //     isChecked: false,
+  //   });
+  // }
 
   function handleEditNote(updatedValue) {
     const editedItems = items.map((item) => {
@@ -84,14 +99,6 @@ function App() {
 
     handleUpdateLocalStorage();
     handleEditModalClose();
-  }
-
-  function handleEditModalClose() {
-    setEditModal({
-      isOpen: false,
-      value: "",
-      isChecked: false,
-    });
   }
 
   function handleDeleteItem(id) {
@@ -198,7 +205,7 @@ function App() {
         items.map((item) => (
           <>
             <TodoListItem
-              onEdit={handleEditModalOpen}
+              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -229,7 +236,7 @@ function App() {
         searchItems.map((item) => (
           <>
             <TodoListItem
-              onEdit={handleEditModalOpen}
+              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -250,7 +257,7 @@ function App() {
         filteredItems.map((item) => (
           <>
             <TodoListItem
-              onEdit={handleEditModalOpen}
+              // onEdit={handleEditModalOpen}
               title={item.title.toUpperCase()}
               key={item.id}
               id={item.id}
@@ -270,23 +277,24 @@ function App() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         className="rounded-full bg-[#6C63FF] text-white absolute w-10 h-10 bottom-4 right-4 p-2 focus:outline-none"
-        onClick={handleAddModalOpen}
+        onClick={showAddModal}
       >
         <img src={plus} />
       </motion.button>
+
       {isAddModalOpen && (
         <AddModal
-          open={isAddModalOpen}
-          onClose={handleAddModalClose}
+          // open={isAddModalOpen}
+          // onClose={handleAddModalClose}
           onUpdate={handleUpdateLocalStorage}
           items={items}
         />
       )}
       {editModal.isOpen && (
         <EditModal
-          value={editModal.value}
-          open={editModal.isOpen}
-          onClose={handleEditModalClose}
+          // value={editModal.value}
+          // open={editModal.isOpen}
+          // onClose={handleEditModalClose}
           onApply={handleEditNote}
         />
       )}

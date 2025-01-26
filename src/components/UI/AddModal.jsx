@@ -1,18 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Input from "./Input";
 import { createPortal } from "react-dom";
+import ModalContext from "../../store/ModalContext";
 
-export default function AddModal({ open, onClose, onUpdate, items }) {
+export default function AddModal({ onUpdate, items }) {
   const dialogRef = useRef();
   const [addValue, setAddValue] = useState();
+  const { isAddModalOpen, hideAddModal } = useContext(ModalContext);
 
   useEffect(() => {
-    if (open) {
+    if (isAddModalOpen) {
       dialogRef.current.showModal();
     } else {
       dialogRef.current.close();
     }
-  }, [open]);
+  }, [isAddModalOpen]);
 
   function handleInputChange(event) {
     setAddValue(event.target.value);
@@ -20,7 +22,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
 
   function handleBackdropClick(event) {
     if (event.target === dialogRef.current) {
-      onClose();
+      hideAddModal();
     }
   }
 
@@ -39,7 +41,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
     itemsPrev.unshift(item);
     localStorage.setItem("items", JSON.stringify(itemsPrev));
 
-    onClose();
+    hideAddModal();
     onUpdate();
   }
 
@@ -47,7 +49,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
     <dialog
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
-      onClose={onClose}
+      onClose={hideAddModal}
       onClick={handleBackdropClick}
     >
       <h2 className="mt-2 font-medium dark:text-[#F7F7F7]">NEW NOTE</h2>
@@ -61,7 +63,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
         <div className="flex justify-between w-full mt-14">
           <button
             className="p-1.5 px-3 text-[#6C63FF] border border-[#6C63FF] dark:bg-[#252525]"
-            onClick={onClose}
+            onClick={hideAddModal}
             type="button"
           >
             CANCEL

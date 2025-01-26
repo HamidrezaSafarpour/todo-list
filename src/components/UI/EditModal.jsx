@@ -1,23 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Input from "./Input";
 import { createPortal } from "react-dom";
+import ModalContext from "../../store/ModalContext";
 
-export default function EditModal({ open, onClose, value, onApply }) {
+export default function EditModal({ onApply }) {
   const dialogRef = useRef();
   // const inputValueRef = useRef();
-  const [updateValue, setUpdateValue] = useState(value);
+  const { editModal, hideEditModal } = useContext(ModalContext);
+  const [updateValue, setUpdateValue] = useState(editModal.value);
 
   useEffect(() => {
-    if (open) {
+    if (editModal.isOpen) {
       dialogRef.current.showModal();
     } else {
       dialogRef.current.close();
     }
-  }, [open]);
+  }, [editModal.isOpen]);
 
   function handleBackdropClick(event) {
     if (event.target === dialogRef.current) {
-      onClose();
+      hideEditModal();
     }
   }
 
@@ -26,6 +28,7 @@ export default function EditModal({ open, onClose, value, onApply }) {
   }
   function handleApply(event) {
     event.preventDefault();
+    hideEditModal();
     onApply(updateValue);
   }
 
@@ -33,21 +36,21 @@ export default function EditModal({ open, onClose, value, onApply }) {
     <dialog
       ref={dialogRef}
       className="w-[350px] h-[200px] backdrop:bg-black backdrop:opacity-50 rounded-md flex flex-col items-center dark:bg-[#252525]"
-      onClose={onClose}
+      onClose={hideEditModal}
       onClick={handleBackdropClick}
     >
       <h2 className="mt-2 font-medium dark:text-[#F7F7F7]">EDIT NOTE</h2>
       <form onSubmit={handleApply}>
         <Input
           type="text"
-          value={value}
+          value={editModal.value}
           classes="my-2 w-[300px] dark:bg-[#252525] dark:text-[#F7F7F7]"
           onChange={handleChange}
         />
         <div className="flex justify-between w-full mt-14">
           <button
             className="p-1.5 px-3 text-[#6C63FF] border border-[#6C63FF] dark:bg-[#252525]"
-            onClick={onClose}
+            onClick={hideEditModal}
             type="button"
           >
             CANCEL

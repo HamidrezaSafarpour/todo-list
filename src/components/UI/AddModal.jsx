@@ -18,28 +18,7 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
     setAddValue(event.target.value);
   }
 
-  // useEffect(() => {
-  //   const handleBackdropClick = (event) => {
-  //     // Check if the click is on the backdrop
-  //     if (event.target === dialogRef.current) {
-  //       onClose(); // Close the dialog
-  //     }
-  //   };
-
-  //   const dialog = dialogRef.current;
-  //   if (dialog) {
-  //     dialog.addEventListener("click", handleBackdropClick);
-  //   }
-
-  //   // Cleanup the event listener when the component is unmounted
-  //   return () => {
-  //     if (dialog) {
-  //       dialog.removeEventListener("click", handleBackdropClick);
-  //     }
-  //   };
-  // }, []);
   function handleBackdropClick(event) {
-    // Check if the click target is the dialog itself
     if (event.target === dialogRef.current) {
       onClose();
     }

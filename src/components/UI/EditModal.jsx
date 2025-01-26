@@ -18,7 +18,8 @@ export default function EditModal({ open, onClose, value, onApply }) {
   function handleChange(event) {
     setUpdateValue(event.target.value);
   }
-  function handleApply() {
+  function handleApply(event) {
+    event.preventDefault();
     onApply(updateValue);
   }
 
@@ -44,7 +45,10 @@ export default function EditModal({ open, onClose, value, onApply }) {
           >
             CANCEL
           </button>
-          <button className="p-1.5 px-3.5 bg-[#6C63FF] text-white">
+          <button
+            className="p-1.5 px-3.5 bg-[#6C63FF] text-white"
+            type="submit"
+          >
             APPLY
           </button>
         </div>

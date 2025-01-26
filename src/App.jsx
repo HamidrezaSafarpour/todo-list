@@ -135,20 +135,37 @@ function App() {
       }
       return;
     }
-    const searched = items.filter((item) =>
-      item.title.includes(event.target.value)
-    );
+    let searched;
+    if (filterText === "Complete" || "Progress") {
+      searched = filteredItems.filter((item) =>
+        item.title.includes(event.target.value)
+      );
+    } else {
+      searched = items.filter((item) =>
+        item.title.includes(event.target.value)
+      );
+    }
     setStatus("searching");
     setSearchItems(searched);
   }
 
   function handleFilter(status) {
     if (status === "filtering") {
-      const filtered = items.filter((item) => item.isChecked);
+      let filtered;
+      {
+        searchItems.length > 0
+          ? (filtered = searchItems.filter((item) => item.isChecked))
+          : (filtered = items.filter((item) => item.isChecked));
+      }
       setStatus(status);
       setFilteredItems(filtered);
     } else if (status === "progressing") {
-      const filtered = items.filter((item) => !item.isChecked);
+      let filtered;
+      {
+        searchItems.length > 0
+          ? (filtered = searchItems.filter((item) => !item.isChecked))
+          : (filtered = items.filter((item) => !item.isChecked));
+      }
       setStatus(status);
       setFilteredItems(filtered);
     } else {

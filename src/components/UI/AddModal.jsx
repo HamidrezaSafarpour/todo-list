@@ -18,7 +18,8 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
     setAddValue(event.target.value);
   }
 
-  function handleAddNote() {
+  function handleAddNote(event) {
+    event.preventDefault();
     const newId =
       items.length > 0 ? Math.max(...items.map((item) => item.id)) + 1 : 0;
 
@@ -58,7 +59,10 @@ export default function AddModal({ open, onClose, onUpdate, items }) {
           >
             CANCEL
           </button>
-          <button className="p-1.5 px-3.5 bg-[#6C63FF] text-white">
+          <button
+            className="p-1.5 px-3.5 bg-[#6C63FF] text-white"
+            type="submit"
+          >
             APPLY
           </button>
         </div>

@@ -4,32 +4,43 @@ import Input from "../UI/Input";
 import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
 export default function Search() {
-  const { filterText, filteredItems, items, setStatus, setSearchItems } =
-    useContext(ItemsStateValueContext);
+  const { items, setSearchItems } = useContext(ItemsStateValueContext);
 
   function handleSearch(event) {
+    // if (event.target.value === "") {
+    //   if (filterText === "ALL") {
+    //     setStatus("base");
+    //   } else if (filterText === "Complete") {
+    //     setStatus("filtering");
+    //   } else {
+    //     setStatus("progressing");
+    //   }
+    //   return;
+    // }
+    // let searched;
+    // if (filterText === "Complete" || filterText === "Progress") {
+    //   searched = filteredItems.filter((item) =>
+    //     item.title.includes(event.target.value)
+    //   );
+    // } else {
+    //   searched = items.filter((item) =>
+    //     item.title.includes(event.target.value)
+    //   );
+    // }
+    // setStatus("searching");
+    // setSearchItems(searched);
     if (event.target.value === "") {
-      if (filterText === "ALL") {
-        setStatus("base");
-      } else if (filterText === "Complete") {
-        setStatus("filtering");
-      } else {
-        setStatus("progressing");
-      }
+      setSearchItems({ searchValue: "", items: items });
       return;
     }
-    let searched;
-    if (filterText === "Complete" || filterText === "Progress") {
-      searched = filteredItems.filter((item) =>
-        item.title.includes(event.target.value)
-      );
-    } else {
-      searched = items.filter((item) =>
-        item.title.includes(event.target.value)
-      );
-    }
-    setStatus("searching");
-    setSearchItems(searched);
+    const searched = items.filter((item) => {
+      return item.title.includes(event.target.value);
+    });
+    console.log(items);
+
+    console.log(searched);
+
+    setSearchItems({ searchValue: event.target.value, items: searched });
   }
 
   return (

@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import darkLogo from "../../assets/dark.svg";
 import lightLogo from "../../assets/light.svg";
+import { motion } from "framer-motion";
 
+const iconRotate = {
+  initial: { rotate: 0 },
+  hover: { rotate: -90 },
+};
 export default function Theme() {
   const [dark, setDark] = useState();
 
@@ -25,11 +30,17 @@ export default function Theme() {
   }
 
   return (
-    <button
-      className="bg-[#6C63FF] w-14 focus:outline-none"
+    <motion.button
+      className="bg-[#6C63FF] w-14 focus:outline-none group"
       onClick={handleDarkMode}
+      initial="initial"
+      whileHover="hover"
     >
-      <img src={dark ? lightLogo : darkLogo} alt="Theme Logo" />
-    </button>
+      <motion.img
+        src={dark ? lightLogo : darkLogo}
+        alt="Theme Logo"
+        variants={iconRotate}
+      />
+    </motion.button>
   );
 }

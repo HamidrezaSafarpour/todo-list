@@ -7,15 +7,7 @@ import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
 export default function TodoListItem({ title, id, isChecked }) {
   const { showEditModal } = useContext(ModalContext);
-  const {
-    items,
-    status,
-    setItems,
-    setFilteredItems,
-    filterText,
-    searchItems,
-    setSearchItems,
-  } = useContext(ItemsStateValueContext);
+  const { items, setItems } = useContext(ItemsStateValueContext);
 
   function handleDeleteItem() {
     const updatedItems = items.filter((item) => item.id !== id);

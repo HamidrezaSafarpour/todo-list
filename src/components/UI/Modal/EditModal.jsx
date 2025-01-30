@@ -37,7 +37,7 @@ export default function EditModal() {
   function handleEditNote() {
     const editedItems = items.map((item) => {
       if (item.id === editModal.id) {
-        return { ...item, title: updateValue };
+        return { ...item, title: updateValue.toLowerCase() };
       }
       return item;
     });

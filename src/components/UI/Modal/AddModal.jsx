@@ -37,7 +37,7 @@ export default function AddModal() {
     const item = {
       id: newId,
       isChecked: false,
-      title: addValue,
+      title: addValue.toLowerCase(),
     };
     let itemsPrev = [...items];
 

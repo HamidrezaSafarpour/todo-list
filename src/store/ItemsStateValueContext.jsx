@@ -3,10 +3,8 @@ import { createContext, useEffect, useState } from "react";
 const ItemsStateValueContext = createContext({
   items: [],
   searchItems: {},
-  filterText: "",
   setItems: () => {},
   setSearchItems: () => {},
-  setFilterText: () => {},
 });
 
 export function ItemsStateValueContextProvider({ children }) {
@@ -14,12 +12,12 @@ export function ItemsStateValueContextProvider({ children }) {
   const [searchItems, setSearchItems] = useState({
     items: [],
     searchValue: "",
+    status: "All",
   });
-  const [filterText, setFilterText] = useState("ALL");
 
   useEffect(() => {
-    console.log({ searchItems, items, filterText });
-  }, [searchItems, items, filterText]);
+    console.log({ searchItems });
+  }, [searchItems, items]);
 
   useEffect(() => {
     let itemsFromLocalStorage = [];
@@ -32,23 +30,24 @@ export function ItemsStateValueContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (searchItems.searchValue === "") {
-      setSearchItems((prev) => ({ ...prev, items: items }));
-    } else {
-      const searched = items.filter((item) => {
-        return item.title.includes(searchItems.searchValue);
-      });
-      setSearchItems({ items: searched, searchValue: searchItems.searchValue });
-    }
+    setSearchItems(({ searchValue, status }) => ({
+      searchValue,
+      items: items.filter(({ title, isChecked }) =>
+        status === "All"
+          ? title.includes(searchValue)
+          : status === "Complete"
+          ? isChecked && title.includes(searchValue)
+          : !isChecked && title.includes(searchValue)
+      ),
+      status,
+    }));
   }, [items]);
 
   const ItemsStateValueCtx = {
     items,
     searchItems,
-    filterText,
     setItems,
     setSearchItems,
-    setFilterText,
   };
 
   return (

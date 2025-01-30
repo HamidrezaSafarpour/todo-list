@@ -11,65 +11,23 @@ export default function TodoList() {
   return (
     <>
       {searchItems.items.length > 0 ? (
-        (filterText === "ALL" &&
-          searchItems.items.map((item) => (
-            <Fragment key={item.id}>
-              <TodoListItem
-                title={item.title.toUpperCase()}
-                key={item.id}
-                id={item.id}
-                isChecked={item.isChecked}
-              />
-              {item.id !==
-                searchItems.items[searchItems.items.length - 1].id && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
-                ></motion.div>
-              )}
-            </Fragment>
-          ))) ||
-        (filterText === "Complete" &&
-          searchItems.items
-            .filter((item) => item.isChecked)
-            .map((item, i, array) => (
-              <Fragment key={item.id}>
-                <TodoListItem
-                  title={item.title.toUpperCase()}
-                  key={item.id}
-                  id={item.id}
-                  isChecked={item.isChecked}
-                />
-                {item.id !== array[array.length - 1].id && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
-                  ></motion.div>
-                )}
-              </Fragment>
-            ))) ||
-        (filterText === "Progress" &&
-          searchItems.items
-            .filter((item) => !item.isChecked)
-            .map((item, i, array) => (
-              <Fragment key={item.id}>
-                <TodoListItem
-                  title={item.title.toUpperCase()}
-                  key={item.id}
-                  id={item.id}
-                  isChecked={item.isChecked}
-                />
-                {item.id !== array[array.length - 1].id && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
-                  ></motion.div>
-                )}
-              </Fragment>
-            )))
+        searchItems.items.map((item) => (
+          <Fragment key={item.id}>
+            <TodoListItem
+              title={item.title.toUpperCase()}
+              key={item.id}
+              id={item.id}
+              isChecked={item.isChecked}
+            />
+            {item.id !== searchItems.items[searchItems.items.length - 1].id && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="h-0.5 w-[calc(100%_-_40px)] bg-[#b2aeff] rounded-md m-2"
+              ></motion.div>
+            )}
+          </Fragment>
+        ))
       ) : (
         <motion.div
           initial={{ opacity: 0 }}

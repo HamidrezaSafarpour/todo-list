@@ -7,14 +7,17 @@ export default function Search() {
   const { items, setSearchItems } = useContext(ItemsStateValueContext);
 
   function handleSearch(event) {
-    if (event.target.value === "") {
-      setSearchItems({ searchValue: "", items: items });
-      return;
-    }
-    const searched = items.filter((item) => {
-      return item.title.includes(event.target.value);
-    });
-    setSearchItems({ searchValue: event.target.value, items: searched });
+    setSearchItems(({ status }) => ({
+      searchValue: event.target.value,
+      items: items.filter(({ title, isChecked }) =>
+        status === "All"
+          ? title.includes(event.target.value)
+          : status === "Complete"
+          ? isChecked && title.includes(event.target.value)
+          : !isChecked && title.includes(event.target.value)
+      ),
+      status,
+    }));
   }
 
   return (

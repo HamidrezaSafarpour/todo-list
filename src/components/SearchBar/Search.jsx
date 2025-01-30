@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import search from "../../assets/search.svg";
 import Input from "../UI/Input";
 import ItemsStateValueContext from "../../store/ItemsStateValueContext";
@@ -7,28 +7,6 @@ export default function Search() {
   const { items, setSearchItems } = useContext(ItemsStateValueContext);
 
   function handleSearch(event) {
-    // if (event.target.value === "") {
-    //   if (filterText === "ALL") {
-    //     setStatus("base");
-    //   } else if (filterText === "Complete") {
-    //     setStatus("filtering");
-    //   } else {
-    //     setStatus("progressing");
-    //   }
-    //   return;
-    // }
-    // let searched;
-    // if (filterText === "Complete" || filterText === "Progress") {
-    //   searched = filteredItems.filter((item) =>
-    //     item.title.includes(event.target.value)
-    //   );
-    // } else {
-    //   searched = items.filter((item) =>
-    //     item.title.includes(event.target.value)
-    //   );
-    // }
-    // setStatus("searching");
-    // setSearchItems(searched);
     if (event.target.value === "") {
       setSearchItems({ searchValue: "", items: items });
       return;
@@ -36,10 +14,6 @@ export default function Search() {
     const searched = items.filter((item) => {
       return item.title.includes(event.target.value);
     });
-    console.log(items);
-
-    console.log(searched);
-
     setSearchItems({ searchValue: event.target.value, items: searched });
   }
 

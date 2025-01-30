@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import pencil from "../../assets/pencil.svg";
 import trash from "../../assets/trash.svg";
 import { motion } from "framer-motion";
@@ -7,9 +7,15 @@ import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
 export default function TodoListItem({ title, id, isChecked }) {
   const { showEditModal } = useContext(ModalContext);
-  const { items, status, setItems, setFilteredItems } = useContext(
-    ItemsStateValueContext
-  );
+  const {
+    items,
+    status,
+    setItems,
+    setFilteredItems,
+    filterText,
+    searchItems,
+    setSearchItems,
+  } = useContext(ItemsStateValueContext);
 
   function handleDeleteItem() {
     const updatedItems = items.filter((item) => item.id !== id);
@@ -18,22 +24,15 @@ export default function TodoListItem({ title, id, isChecked }) {
   }
 
   function handleChecked(event) {
-    const updateChecked = items.map((item) => {
+    const newItems = items.map((item) => {
       if (item.id === id) {
         return { ...item, isChecked: event.target.checked };
       }
       return item;
     });
-    if (status === "filtering") {
-      const filtered = updateChecked.filter((item) => item.isChecked);
-      setFilteredItems(filtered);
-    }
-    if (status === "progressing") {
-      const filtered = updateChecked.filter((item) => !item.isChecked);
-      setFilteredItems(filtered);
-    }
-    setItems(updateChecked);
-    localStorage.setItem("items", JSON.stringify(updateChecked));
+
+    setItems(newItems);
+    localStorage.setItem("items", JSON.stringify(newItems));
   }
 
   return (

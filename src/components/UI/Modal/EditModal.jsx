@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 
 export default function EditModal() {
   const dialogRef = useRef();
-  // const inputValueRef = useRef();
   const { editModal, hideEditModal } = useContext(ModalContext);
   const [updateValue, setUpdateValue] = useState(editModal.value);
   const { items, setItems } = useContext(ItemsStateValueContext);

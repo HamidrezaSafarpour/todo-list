@@ -2,10 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 const ItemsStateValueContext = createContext({
   items: [],
-  searchItems: {
-    searchValue: "",
-    items: [],
-  },
+  searchItems: {},
   filterText: "",
   setItems: () => {},
   setSearchItems: () => {},
@@ -21,11 +18,8 @@ export function ItemsStateValueContextProvider({ children }) {
   const [filterText, setFilterText] = useState("ALL");
 
   useEffect(() => {
-    console.log({ items });
-  }, [items]);
-  useEffect(() => {
-    console.log({ searchItems });
-  }, [searchItems.items]);
+    console.log({ searchItems, items, filterText });
+  }, [searchItems, items, filterText]);
 
   useEffect(() => {
     let itemsFromLocalStorage = [];
@@ -42,35 +36,19 @@ export function ItemsStateValueContextProvider({ children }) {
       setSearchItems((prev) => ({ ...prev, items: items }));
     } else {
       const searched = items.filter((item) => {
-        item.title.includes(searchItems.searchValue);
+        return item.title.includes(searchItems.searchValue);
       });
-      setSearchItems({ items: searched, value: searchItems.searchValue });
+      setSearchItems({ items: searched, searchValue: searchItems.searchValue });
     }
   }, [items]);
-
-  function handleSetItems(value) {
-    setItems(value);
-  }
-  function handleSearchItems(value) {
-    setSearchItems(value);
-  }
-  function handleFilteredItems(value) {
-    setFilteredItems(value);
-  }
-  function handleStatus(value) {
-    setStatus(value);
-  }
-  function handleFilterTextChange(text) {
-    setFilterText(text);
-  }
 
   const ItemsStateValueCtx = {
     items,
     searchItems,
     filterText,
-    setItems: handleSetItems,
-    setSearchItems: handleSearchItems,
-    setFilterText: handleFilterTextChange,
+    setItems,
+    setSearchItems,
+    setFilterText,
   };
 
   return (

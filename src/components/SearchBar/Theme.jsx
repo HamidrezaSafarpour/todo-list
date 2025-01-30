@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import darkLogo from "../../assets/dark.svg";
 import lightLogo from "../../assets/light.svg";
-import ItemsStateValueContext from "../../store/ItemsStateValueContext";
 
 export default function Theme() {
   const [dark, setDark] = useState();
